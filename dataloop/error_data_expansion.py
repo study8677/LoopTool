@@ -190,7 +190,7 @@ def call_generation_api(messages: List[Dict], clients: List[OpenAI], models: lis
         model = random.choice(models)
         response = client.chat.completions.create(
             model=model,
-            temperature=1.0,  # 增加温度以获得更多样化的输出
+            temperature=1.0, 
             max_tokens=8192,
             messages=messages,
             timeout=72000,
@@ -476,8 +476,7 @@ def generate_new_samples_from_errors_multi_thread(error_samples_path: str, api_k
                 error_samples.append(sample)
             elif status == 'original_incorrect' and '<tool_call>' in sample['response']:
                 error_samples.append(sample)
-            elif status == 'both_incorrect' and '<tool_call>' in sample['response']:
-                error_samples.append(sample)
+
             
     print(f"Found {len(error_samples)} error samples from {len(all_samples)} total samples")
     
@@ -485,8 +484,6 @@ def generate_new_samples_from_errors_multi_thread(error_samples_path: str, api_k
         print("No error samples found!")
         return []
     
-    # error_samples = error_samples[:10]
-    # 为每个错误样本生成多个新样本
     generation_tasks = []
     for i, error_sample in enumerate(error_samples):
         for j in range(samples_per_error):
